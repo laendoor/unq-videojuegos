@@ -1,18 +1,15 @@
 extends Sprite
 
-var speed = 200 #Pixeles
+export (float) var speed = 200 # Pixeles
+
+var leftLimit: float = 0
+var rightLimit: float = 800
 
 func _physics_process(delta):
-	# Manera básica
-	var direction:int = 0
-	if Input.is_action_pressed("move_left"):
-		direction = -1
-	elif Input.is_action_pressed("move_right"):
-		direction = 1
+	var left:bool = Input.is_action_pressed("ui_left")
+	var right:bool = Input.is_action_pressed("ui_right")
+	var direction:float = int(right) - int(left)
+	var newPosition:float = position.x + (direction * speed * delta)
 	
-	#position.x += direction * speed * delta
-	
-	# Manera optimizada
-	var direction_optimized:int = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
-	
-	position.x += direction_optimized * speed * delta
+	if newPosition > leftLimit && newPosition < rightLimit:
+		position.x = newPosition
