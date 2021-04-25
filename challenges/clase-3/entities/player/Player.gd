@@ -11,25 +11,22 @@ func initialize(container_node: Node) -> void:
 	arm.initialize(container_node)
 
 func _physics_process(delta: float) -> void:
-	var new_position_x: float = _get_new_position_x(delta, position.x)
+	var new_position: Vector2 = _get_new_position(delta)
+	if _can_move_to(new_position):
+		position = new_position
 	
-	# Actions
 	arm.point_to(get_local_mouse_position())
-	
 	if _is_fire_pressed():
 		arm.fire()
 
-	if _can_move_to(new_position_x):
-		position.x = new_position_x
-
-func _get_new_position_x(delta: float, actual_position: float) -> float:
+func _get_new_position(delta: float) -> Vector2:
 	var is_left_pressed: bool = Input.is_action_pressed("ui_left")
 	var is_right_pressed: bool = Input.is_action_pressed("ui_right")
 	var direction_pressed: float = float(is_right_pressed) - float(is_left_pressed)
-	return actual_position + (direction_pressed * speed * delta)
+	return Vector2(position.x + (direction_pressed * speed * delta), position.y)
 
 func _is_fire_pressed() -> bool:
 	return Input.is_action_just_pressed("fire")
 
-func _can_move_to(position_x: float) -> bool:
-	return position_x > LEFT_LIMIT && position_x < RIGHT_LIMIT
+func _can_move_to(position: Vector2) -> bool:
+	return position.x > LEFT_LIMIT && position.x < RIGHT_LIMIT
