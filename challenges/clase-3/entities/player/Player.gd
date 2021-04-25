@@ -7,10 +7,10 @@ export (float) var speed: float = 200 # Pixeles
 
 onready var arm: Sprite = $Arm
 
-func initialize(container_node: Node):
+func initialize(container_node: Node) -> void:
 	arm.initialize(container_node)
 
-func _physics_process(delta: float):
+func _physics_process(delta: float) -> void:
 	var new_position_x: float = _get_new_position_x(delta, position.x)
 	
 	# Actions

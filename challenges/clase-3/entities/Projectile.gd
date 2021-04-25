@@ -7,10 +7,10 @@ var direction: Vector2
 
 onready var timer = $DeleteTimer
 
-func initialize(parent: Node, fire_direction: Vector2, initial_position: Vector2):
+func initialize(parent: Node, initial_position: Vector2, target_direction: Vector2):
 	_parent = parent
 	global_position = initial_position
-	direction = fire_direction
+	direction = target_direction
 	timer.connect("timeout", self, "_on_DeleteTimer_timeout")
 	timer.start()
 

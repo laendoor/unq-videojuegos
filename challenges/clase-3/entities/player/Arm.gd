@@ -11,9 +11,10 @@ func initialize(container_node: Node):
 
 func fire() -> void:
 	var new_projectile = projectile_scene.instance()
-	var position = (fire_position.global_position - global_position).normalized()
+	var from_position = fire_position.global_position
+	var to_position = (fire_position.global_position - global_position).normalized()
 	_container.add_child(new_projectile)
-	new_projectile.initialize(_container, position, fire_position.global_position)
+	new_projectile.initialize(_container, from_position, to_position)
 
 func point_to(position: Vector2) -> void:
 	rotation = position.normalized().angle()
