@@ -21,7 +21,7 @@ func _initialize_turrets(amount_of_turrets: int) -> void:
 		turret_position = Vector2(_next_random_x(turret_position), _next_random_y(turret_position))
 
 func _next_random_x(position: Vector2) -> float:
-	return min(rng.randf_range(position.x + 100, position.x + 200), 850)
+	return min(rng.randf_range(position.x + 100, position.x + 200), 800)
 
 func _next_random_y(position: Vector2) -> float:
 	return rng.randf_range(50, 150)
