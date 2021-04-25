@@ -1,6 +1,6 @@
 extends Node
 
-onready var player = $Player
+onready var player: Sprite = $Player
 
-func _ready():
+func _ready() -> void:
 	player.initialize(self)
