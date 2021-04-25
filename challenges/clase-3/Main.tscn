@@ -32,3 +32,16 @@ __meta__ = {
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 397.814, 386.755 )
+
+[node name="Controls Label" type="Label" parent="."]
+margin_left = 600.323
+margin_top = 3.49492
+margin_right = 799.323
+margin_bottom = 85.4949
+text = "Controls:
+  * Move Player: <- -> or A D
+  * Move Weapon: Mouse
+  * Fire: Left-Click"
+__meta__ = {
+"_edit_use_anchors_": false
+}
