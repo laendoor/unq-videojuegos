@@ -1,19 +1,23 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://entities/player/Player.gd" type="Script" id=1]
-[ext_resource path="res://assets/textures/player.png" type="Texture" id=2]
-[ext_resource path="res://assets/textures/cannon.png" type="Texture" id=3]
+[ext_resource path="res://assets/textures/cannon_contra.png" type="Texture" id=2]
+[ext_resource path="res://assets/textures/player_contra.png" type="Texture" id=3]
 [ext_resource path="res://entities/player/PlayerProjectile.tscn" type="PackedScene" id=4]
 [ext_resource path="res://entities/player/Arm.gd" type="Script" id=5]
 
 [node name="Player" type="Sprite"]
-texture = ExtResource( 2 )
+scale = Vector2( 1.2, 1.2 )
+texture = ExtResource( 3 )
+offset = Vector2( 7.03221, 31.3839 )
 script = ExtResource( 1 )
 
 [node name="Arm" type="Sprite" parent="."]
-texture = ExtResource( 3 )
+scale = Vector2( 0.7, 0.6 )
+texture = ExtResource( 2 )
+offset = Vector2( 14.5108, 0.224203 )
 script = ExtResource( 5 )
 projectile_scene = ExtResource( 4 )
 
 [node name="FirePosition" type="Position2D" parent="Arm"]
-position = Vector2( 21.4617, -0.471931 )
+position = Vector2( 37.1527, 0 )
