@@ -3,7 +3,8 @@ extends Sprite
 export (PackedScene) var projectile_scene: PackedScene
 export (float) var shoot_every: float = 1.0
 
-var _container: Node
+var _container: Node = null
+var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 onready var fire_position = $FirePosition
 onready var _fire_timer = $FireTimer
@@ -13,11 +14,12 @@ func initialize(container: Node, new_position: Vector2) -> void:
 	position = new_position
 
 func _ready() -> void:
+	rng.randomize()
 	_start_fire()
 
 func _start_fire() -> void:
 	_fire_timer.connect("timeout", self, "_on_Timer_timeout")
-	_fire_timer.set_wait_time(shoot_every)
+	_fire_timer.set_wait_time(rng.randf_range(shoot_every - 0.3, shoot_every + 0.3))
 	_fire_timer.set_one_shot(false) # Make sure it loops
 	_fire_timer.start()
 
