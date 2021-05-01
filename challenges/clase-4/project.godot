@@ -18,6 +18,10 @@ config/name="Clase 4 [LDL]"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Global="*res://Global.gd"
+
 [display]
 
 window/size/width=800
