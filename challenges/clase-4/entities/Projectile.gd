@@ -1,6 +1,8 @@
-extends Sprite
+extends Area2D
 
 onready var lifetime_timer = $LifetimeTimer
+
+signal hacealgo
 
 export (float) var VELOCITY:float = 800.0
 
@@ -30,4 +32,7 @@ func _on_lifetime_timer_timeout():
 func _remove():
 	get_parent().remove_child(self)
 	queue_free()
-	
+
+func _on_Projectile_body_entered(body):
+	if body.has_method("notify_hit"):
+		body.notify_hit()

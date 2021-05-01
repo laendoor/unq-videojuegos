@@ -5,7 +5,7 @@
 [ext_resource path="res://Main.gd" type="Script" id=3]
 [ext_resource path="res://entities/enemies/Turret.tscn" type="PackedScene" id=4]
 [ext_resource path="res://entities/enemies/TurretsSpawner.gd" type="Script" id=5]
-[ext_resource path="res://assets/textures/floor.png" type="Texture" id=6]
+[ext_resource path="res://entities/player/Floor.tscn" type="PackedScene" id=6]
 
 [node name="Main" type="Node"]
 script = ExtResource( 3 )
@@ -13,6 +13,7 @@ script = ExtResource( 3 )
 [node name="Background" type="TextureRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+rect_scale = Vector2( 1.96, 1 )
 texture = ExtResource( 2 )
 expand = true
 __meta__ = {
@@ -20,12 +21,21 @@ __meta__ = {
 }
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 413.003, 395.272 )
+position = Vector2( 249.124, 377.722 )
 
-[node name="Floor" type="Sprite" parent="."]
-position = Vector2( 400, 513.5 )
-scale = Vector2( 12.1212, 2.62121 )
-texture = ExtResource( 6 )
+[node name="Floor" parent="." instance=ExtResource( 6 )]
+position = Vector2( 784, 513.5 )
+scale = Vector2( 23.8412, 2.62121 )
+
+[node name="Left" parent="." instance=ExtResource( 6 )]
+position = Vector2( -83.8147, 299.088 )
+rotation = 1.5708
+scale = Vector2( 9.0812, 2.62121 )
+
+[node name="Right" parent="." instance=ExtResource( 6 )]
+position = Vector2( 1651.3, 300 )
+rotation = 1.5708
+scale = Vector2( 9.1, 2.621 )
 
 [node name="TurretsSpawner" type="Node" parent="."]
 script = ExtResource( 5 )

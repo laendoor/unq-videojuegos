@@ -1,10 +1,12 @@
-extends Sprite
+extends KinematicBody2D
 
 onready var cannon = $Cannon
 
 export (float) var ACCELERATION:float = 20.0
 export (float) var H_SPEED_LIMIT:float = 600.0
 export (float) var FRICTION_WEIGHT:float = 0.1
+export (float) var GRAVITY: float = 10.0
+export (float) var JUMP_VELOCITY: float = 500.0
 
 var velocity:Vector2 = Vector2.ZERO
 var projectile_container
@@ -34,4 +36,13 @@ func _physics_process(delta):
 	else:
 		velocity.x = lerp(velocity.x, 0, FRICTION_WEIGHT) if abs(velocity.x) > 1 else 0
 	
-	position += velocity * delta
+	move_and_slide(Vector2.DOWN, -Vector2.DOWN) # hackazo para el is_on_floor()
+	if is_on_floor() and Input.is_action_pressed("jump"):
+		velocity.y -= JUMP_VELOCITY
+	else:
+		velocity.y += JUMP_VELOCITY / 75
+	
+	move_and_slide(velocity)
+
+func notify_hit():
+	print("ouch")
