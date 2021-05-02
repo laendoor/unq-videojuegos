@@ -8,16 +8,18 @@ export (PackedScene) var projectile_scene
 var player
 var projectile_container
 
-func initialize(container, turret_pos, player, projectile_container):
-	container.add_child(self)
-	global_position = turret_pos
+func initialize(container, player):
 	self.player = player
-	self.projectile_container = projectile_container
+	self.projectile_container = container
 	fire_timer.connect("timeout", self, "fire_at_player")
 
 func fire_at_player():
 	var proj_instance = projectile_scene.instance()
-	proj_instance.initialize(projectile_container, fire_position.global_position, fire_position.global_position.direction_to(player.global_position))
+	proj_instance.initialize(
+		projectile_container,
+		fire_position.global_position,
+		fire_position.global_position.direction_to(player.global_position)
+	)
 
 func _on_Area2D_body_entered(body):
 	if body.has_method("notify_hit"):

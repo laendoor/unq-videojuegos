@@ -7,7 +7,9 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 308.263
 
-[node name="Turret" type="Sprite"]
+[node name="Turret" type="Sprite" groups=[
+"Turrets",
+]]
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 projectile_scene = ExtResource( 3 )
@@ -15,7 +17,7 @@ projectile_scene = ExtResource( 3 )
 [node name="FireTimer" type="Timer" parent="."]
 
 [node name="FirePosition" type="Position2D" parent="."]
-position = Vector2( 0, -30.0339 )
+position = Vector2( 0, -0.634241 )
 
 [node name="Area2D" type="Area2D" parent="."]
 
