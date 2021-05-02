@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://entities/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/player.png" type="Texture" id=2]
 [ext_resource path="res://assets/textures/cannon.png" type="Texture" id=3]
 [ext_resource path="res://entities/player/Cannon.gd" type="Script" id=4]
 [ext_resource path="res://entities/player/PlayerProjectile.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/textures/Dead In (24x8).png" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 31.9286, 32.1007 )
@@ -32,3 +33,10 @@ shape = SubResource( 1 )
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 0, -86 )
 current = true
+
+[node name="Dead" type="Sprite" parent="."]
+visible = false
+position = Vector2( 18.5807, -46.9428 )
+texture = ExtResource( 6 )
+region_enabled = true
+region_rect = Rect2( 34.808, -4.764, 35, 26 )

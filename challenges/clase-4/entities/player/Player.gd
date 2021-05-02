@@ -8,10 +8,13 @@ export (float) var FRICTION_WEIGHT:float = 0.1
 export (float) var GRAVITY: float = 10.0
 export (float) var JUMP_VELOCITY: float = 400.0
 
+var timer: Timer
 var velocity: Vector2 = Vector2.ZERO
 var projectile_container
 
 func initialize(projectile_container):
+	timer = Timer.new()
+	add_child(timer)
 	self.projectile_container = projectile_container
 	cannon.projectile_container = projectile_container
 
@@ -46,4 +49,10 @@ func _physics_process(delta):
 	move_and_slide(velocity, Vector2.UP)
 
 func notify_hit():
-	print("ouch")
+	$Dead.visible = true
+	timer.wait_time = 2.5
+	timer.connect("timeout", self, "_on_Timer_timeout")
+	timer.start()
+
+func _on_Timer_timeout():
+	$Dead.visible = false
