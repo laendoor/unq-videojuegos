@@ -1,6 +1,9 @@
 extends KinematicBody2D
 
+signal pitido
+
 onready var cannon = $Cannon
+onready var animation: AnimatedSprite = $Body
 
 const FLOOR_NORMAL := Vector2.UP  # Igual a Vector2(0, -1)
 const SNAP_DIRECTION := Vector2.UP
@@ -21,6 +24,7 @@ var snap_vector:Vector2 = SNAP_DIRECTION * SNAP_LENGHT
 func initialize(projectile_container):
 	self.projectile_container = projectile_container
 	cannon.projectile_container = projectile_container
+	animation.play("idle")
 
 func get_input():
 	# Cannon fire
@@ -56,10 +60,11 @@ func _physics_process(delta):
 
 	velocity = move_and_slide_with_snap(velocity, snap_vector, FLOOR_NORMAL, true, 4, SLOPE_THRESHOLD) # Usando move_and_slide_with_snap y con threshold de slope
 
-
 func notify_hit():
 	print("I'm player and imma die")
-	call_deferred("_remove")
+	animation.play("dead")
+	yield(animation, "animation_finished")
+	_remove()
 
 func _remove():
 	set_physics_process(false)

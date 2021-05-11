@@ -1,8 +1,9 @@
 extends StaticBody2D
 
 onready var fire_position = $FirePosition
-onready var fire_timer = $FireTimer
-onready var raycast = $RayCast2D
+onready var fire_timer: Timer = $FireTimer
+onready var raycast: RayCast2D = $RayCast2D
+onready var animation: AnimatedSprite = $turret
 
 export (PackedScene) var projectile_scene
 
@@ -17,6 +18,7 @@ func initialize(container, turret_pos, projectile_container):
 	container.add_child(self)
 	global_position = turret_pos
 	self.projectile_container = projectile_container
+	animation.play("idle")
 
 func fire():
 	if target != null:
@@ -27,8 +29,10 @@ func fire():
 		fire_timer.start()
 
 func _physics_process(delta):
-	raycast.set_cast_to(to_local(target.global_position))
+	var targetPosition = to_local(target.global_position)
+	raycast.set_cast_to(targetPosition)
 	if raycast.is_colliding() && raycast.get_collider() == target:
+		animation.flip_h = raycast.position.x > targetPosition.x
 		if fire_timer.is_stopped():
 			fire_timer.start()
 	elif !fire_timer.is_stopped():
