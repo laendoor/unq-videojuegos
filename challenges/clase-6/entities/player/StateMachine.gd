@@ -1,15 +1,14 @@
 extends Node
 class_name StateMachine
 
-var state = null setget set_state
-var previous_state = null
-
-var parent
+var parent: Node
+var state: int setget set_state
+var prev_state: int
 
 func _ready():
 	set_physics_process(false)
 
-func initialize(parent):
+func initialize(parent: Node):
 	self.parent = parent
 	set_physics_process(true)
 
@@ -26,17 +25,18 @@ func _state_logic(delta):
 func _get_transition(delta):
 	return null
 
-func _enter_state(new_state, old_state):
+func _enter_state(new_state: int):
 	pass
 
-func _exit_state(old_state, new_state):
+func _exit_state(old_state: int):
 	pass
 
-func set_state(new_state):
-	previous_state = state
+func set_state(new_state: int):
+	prev_state = self.state
 	state = new_state
 	
-	if previous_state != null:
-		_exit_state(previous_state, new_state)
+	if prev_state != null:
+		_exit_state(prev_state)
+	
 	if new_state != null:
-		_enter_state(new_state, previous_state)
+		_enter_state(new_state)
