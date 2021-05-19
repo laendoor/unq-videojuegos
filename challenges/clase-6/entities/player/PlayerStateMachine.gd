@@ -3,15 +3,17 @@ extends "res://entities/player/StateMachine.gd"
 enum STATES {
 	IDLE
 	WALK,
-	JUMP,
+	JUMP1,
+	JUMP2,
 	DEAD,
 }
 
 var animations_map: Dictionary = {
-	STATES.IDLE: "idle",
-	STATES.WALK: "walk",
-	STATES.JUMP: "jump",
-	STATES.DEAD: "dead",
+	STATES.IDLE:  "idle",
+	STATES.WALK:  "walk",
+	STATES.JUMP1: "jump",
+	STATES.JUMP2: "jump",
+	STATES.DEAD:  "dead",
 }
 
 func initialize(parent):
@@ -40,7 +42,9 @@ func _get_transition(_delta):
 	if _is_alive() && _is_jumping():
 		parent.snap_vector = Vector2.ZERO
 		parent.velocity.y = -parent.jump_speed
-		return STATES.JUMP
+		if state == STATES.JUMP1:
+			return STATES.JUMP2
+		return STATES.JUMP1
 	
 	if state == STATES.IDLE && int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left")) != 0:
 		return STATES.WALK
@@ -48,7 +52,7 @@ func _get_transition(_delta):
 	if state == STATES.WALK && parent.move_direction == 0:
 		return STATES.IDLE
 	
-	if state == STATES.JUMP && parent.is_on_floor():
+	if (state == STATES.JUMP1 || state == STATES.JUMP2) && parent.is_on_floor():
 		if parent.move_direction != 0:
 			return STATES.WALK
 		return STATES.IDLE
@@ -62,7 +66,8 @@ func _exit_state(old_state):
 	pass
 
 func _is_alive() -> bool:
-	return state == STATES.IDLE || state == STATES.WALK
+	return state != STATES.DEAD
 
 func _is_jumping() -> bool:
-	return Input.is_action_just_pressed("jump") && parent.is_on_floor()
+	var can_jump = parent.is_on_floor() || state == STATES.JUMP1
+	return can_jump && Input.is_action_just_pressed("jump")
