@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://entities/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/player/girl_spritesheet.png" type="Texture" id=2]
@@ -74,6 +74,37 @@ tracks/1/keys = {
 } ]
 }
 
+[sub_resource type="Animation" id=7]
+resource_name = "roll"
+length = 0.75
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 30, 18, 22, 26, 22, 18, 30 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("StateMachine")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.65 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "finish_jump"
+} ]
+}
+
 [sub_resource type="Animation" id=4]
 resource_name = "walk"
 length = 0.95
@@ -109,6 +140,7 @@ script = ExtResource( 1 )
 anims/dead = SubResource( 1 )
 anims/idle = SubResource( 2 )
 anims/jump = SubResource( 3 )
+anims/roll = SubResource( 7 )
 anims/walk = SubResource( 4 )
 
 [node name="StateMachine" type="Node" parent="."]
