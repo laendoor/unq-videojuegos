@@ -39,14 +39,14 @@ func _get_transition(_delta):
 		parent.emit_signal("dead")
 		return STATES.DEAD
 	
-	if _is_alive() && _is_jumping():
+	if _is_alive() && _can_jump():
 		parent.snap_vector = Vector2.ZERO
 		parent.velocity.y = -parent.jump_speed
 		if state == STATES.JUMP1:
 			return STATES.JUMP2
 		return STATES.JUMP1
 	
-	if state == STATES.IDLE && int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left")) != 0:
+	if state == STATES.IDLE && _wants_to_walk():
 		return STATES.WALK
 	
 	if state == STATES.WALK && parent.move_direction == 0:
@@ -68,6 +68,11 @@ func _exit_state(old_state):
 func _is_alive() -> bool:
 	return state != STATES.DEAD
 
-func _is_jumping() -> bool:
-	var can_jump = parent.is_on_floor() || state == STATES.JUMP1
-	return can_jump && Input.is_action_just_pressed("jump")
+func _wants_to_walk() -> bool:
+	return Input.is_action_pressed("move_left") || Input.is_action_pressed("move_right")
+
+func _wants_to_jump() -> bool:
+	return Input.is_action_just_pressed("jump")
+
+func _can_jump() -> bool:
+	return _wants_to_jump() && (parent.is_on_floor() || state == STATES.JUMP1)
