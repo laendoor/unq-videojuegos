@@ -59,6 +59,20 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71 ]
 }
+tracks/1/type = "method"
+tracks/1/path = NodePath("StateMachine")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1.25 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "finish_jump"
+} ]
+}
 
 [sub_resource type="Animation" id=4]
 resource_name = "walk"
@@ -106,7 +120,7 @@ texture = SubResource( 5 )
 offset = Vector2( 50, 0 )
 hframes = 15
 vframes = 8
-frame = 34
+frame = 46
 
 [node name="Slime" type="Sprite" parent="."]
 position = Vector2( -1.26132, -72.3171 )

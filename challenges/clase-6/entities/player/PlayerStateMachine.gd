@@ -19,60 +19,67 @@ var animations_map: Dictionary = {
 func initialize(parent):
 	.initialize(parent)
 	call_deferred("set_state", STATES.IDLE)
-	print(STATES)
 
 func _state_logic(_delta):
-	if state != STATES.DEAD:
-		parent._handle_cannon_actions()
+	if _is_dead():
+		set_state(STATES.DEAD)
+		return
 	
-	if state == STATES.IDLE || state == STATES.DEAD:
-		parent._handle_deacceleration()
-	else:
-		parent._handle_move_input()
-	parent._apply_movement()
+	match(state):
+		STATES.IDLE:
+			parent._handle_cannon_actions()
+			parent._handle_deacceleration()
+			parent._handle_move_input()
+			parent._apply_movement()
+			if parent.is_on_floor() && _wants_to_walk():
+				set_state(STATES.WALK)
+			if parent.is_on_floor() && _wants_to_jump():
+				set_state(STATES.JUMP1)
+		
+		STATES.WALK:
+			parent._handle_cannon_actions()
+			parent._handle_move_input()
+			parent._apply_movement()
+			if parent.move_direction == 0:
+				set_state(STATES.IDLE)
+			if parent.is_on_floor() && _wants_to_jump():
+				set_state(STATES.JUMP1)
+		
+		STATES.JUMP1:
+			parent._handle_cannon_actions()
+			parent._handle_move_input()
+			parent._apply_movement()
+			if _wants_to_jump():
+				set_state(STATES.JUMP2)
+		
+		STATES.JUMP2:
+			parent._handle_cannon_actions()
+			parent._handle_move_input()
+			parent._apply_movement()
 
-func _get_transition(_delta):
-	if state == STATES.DEAD:
-		return STATES.DEAD
+func _is_dead() -> bool:
+	return PlayerData.current_health == 0
 
-	if PlayerData.current_health == 0:
-		parent.emit_signal("dead")
-		return STATES.DEAD
-	
-	if _is_alive() && _can_jump():
-		parent.snap_vector = Vector2.ZERO
-		parent.velocity.y = -parent.jump_speed
-		if state == STATES.JUMP1:
-			return STATES.JUMP2
-		return STATES.JUMP1
-	
-	if state == STATES.IDLE && _wants_to_walk():
-		return STATES.WALK
-	
-	if state == STATES.WALK && parent.move_direction == 0:
-		return STATES.IDLE
-	
-	if (state == STATES.JUMP1 || state == STATES.JUMP2) && parent.is_on_floor():
-		if parent.move_direction != 0:
-			return STATES.WALK
-		return STATES.IDLE
-	
-	return null
+func _jump():
+	parent.snap_vector = Vector2.ZERO
+	parent.velocity.y = -parent.jump_speed
+
+func finish_jump():
+	set_state(STATES.IDLE)
 
 func _enter_state(new_state):
-	parent._play_animation(animations_map[new_state])
+	if STATES.DEAD:
+		parent.emit_signal("dead")
+	if new_state == STATES.JUMP1 || new_state == STATES.JUMP2:
+		_jump()
+	if new_state >= 0:
+		parent._play_animation(animations_map[new_state])
 
-func _exit_state(old_state):
+func _exit_state(_old_state):
 	pass
-
-func _is_alive() -> bool:
-	return state != STATES.DEAD
 
 func _wants_to_walk() -> bool:
 	return Input.is_action_pressed("move_left") || Input.is_action_pressed("move_right")
 
 func _wants_to_jump() -> bool:
 	return Input.is_action_just_pressed("jump")
-
-func _can_jump() -> bool:
-	return _wants_to_jump() && (parent.is_on_floor() || state == STATES.JUMP1)
