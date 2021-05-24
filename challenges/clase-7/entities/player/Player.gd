@@ -5,6 +5,7 @@ signal hit()
 signal dead()
 
 onready var outPutStreamPlayer = $PlayerOutput
+onready var life_sound = $LifeSound
 onready var cannon = $Body/Slime/CannonContainer/Cannon
 onready var cannon_container = $Body/Slime/CannonContainer
 onready var sm = $StateMachine
@@ -37,7 +38,6 @@ var jumps:int = 0
 func _ready():
 	sm.initialize(self)
 	PlayerData.call_deferred("set_max_health", max_health)
-#	outPutStreamPlayer.jump()
 
 func initialize(projectile_container):
 	self.projectile_container = projectile_container
@@ -97,6 +97,7 @@ func _is_animation_playing(animation_name:String)->bool:
 
 func notify_hit(amount):
 	state_machine.handle_hit(amount)
+	life_sound.play()
 
 func _receive_damage(amount):
 	PlayerData.current_health += min(amount, PlayerData.max_health)

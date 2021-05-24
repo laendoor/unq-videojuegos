@@ -3,6 +3,7 @@ extends KinematicBody2D
 onready var fire_position = $FirePosition
 onready var raycast = $FirePosition/RayCast2D
 onready var remove_anim_player = $RemoveAnimPlayer
+onready var fire_sound = $FireSound
 
 onready var body_sprite:AnimatedSprite = $Body
 
@@ -34,6 +35,7 @@ func fire():
 		if projectile_container == null:
 			projectile_container = get_parent()
 		proj_instance.initialize(projectile_container, fire_position.global_position, fire_position.global_position.direction_to(target.global_position))
+		fire_sound.play()
 
 func notify_hit(amount):
 	state_machine.notify_hit(amount)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://entities/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/textures/player/girl_spritesheet.png" type="Texture" id=2]
@@ -11,6 +11,9 @@
 [ext_resource path="res://Audio/Sfx/Jump.ogg" type="AudioStream" id=9]
 [ext_resource path="res://Audio/Sfx/Roll.ogg" type="AudioStream" id=10]
 [ext_resource path="res://Audio/Sfx/Leaves1.ogg" type="AudioStream" id=11]
+[ext_resource path="res://Audio/Bgm/gameOver.ogg" type="AudioStream" id=12]
+[ext_resource path="res://Audio/Sfx/PlayerAttack.ogg" type="AudioStream" id=13]
+[ext_resource path="res://Audio/Sfx/playerHurt.wav" type="AudioStream" id=14]
 
 [sub_resource type="Animation" id=1]
 resource_name = "dead"
@@ -39,6 +42,20 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 2, 2 ), Vector2( 0.5, 0 ) ]
+}
+tracks/2/type = "audio"
+tracks/2/path = NodePath("PlayerOutput")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 12 )
+} ],
+"times": PoolRealArray( 0.05 )
 }
 
 [sub_resource type="Animation" id=2]
@@ -228,6 +245,9 @@ projectile_scene = ExtResource( 5 )
 [node name="CannonTip" type="Position2D" parent="Body/Slime/CannonContainer/Cannon"]
 position = Vector2( 15, 0 )
 
+[node name="CannonSound" type="AudioStreamPlayer" parent="Body/Slime/CannonContainer/Cannon"]
+stream = ExtResource( 13 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 7 )
 
@@ -249,3 +269,6 @@ cast_to = Vector2( 0, 5 )
 stream = ExtResource( 11 )
 bus = "Sorround"
 script = ExtResource( 8 )
+
+[node name="LifeSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 14 )
