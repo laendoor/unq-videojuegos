@@ -10,7 +10,8 @@ config_version=4
 
 [application]
 
-config/name="GodotShadersClase"
+config/name="Clase 8 [LDL]"
+run/main_scene="res://ClaseShaders.tscn"
 config/icon="res://icon.png"
 
 [global]

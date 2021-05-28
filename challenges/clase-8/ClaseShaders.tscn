@@ -10,6 +10,10 @@
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 5 )
+shader_param/width = 0.05
+shader_param/progress = 0.5
+shader_param/color_from = Color( 1, 0, 0, 1 )
+shader_param/color_to = Color( 0, 1, 0, 1 )
 
 [node name="ClaseShaders" type="Node2D"]
 
@@ -40,6 +44,6 @@ __meta__ = {
 
 [node name="Ejercicio" type="Sprite" parent="Playground"]
 material = SubResource( 1 )
-position = Vector2( 428.024, 509.453 )
+position = Vector2( 432.024, 509.453 )
 scale = Vector2( 12.2605, 12.2605 )
 texture = ExtResource( 6 )
