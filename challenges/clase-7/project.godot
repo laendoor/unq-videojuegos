@@ -44,7 +44,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Proyecto Godot - Clase 7 Final"
+config/name="Clase 7 [LDL]"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
