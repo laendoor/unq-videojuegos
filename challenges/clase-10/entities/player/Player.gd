@@ -4,6 +4,8 @@ class_name Player
 signal hit()
 signal dead()
 signal ice(x,y)
+signal ice_started
+signal ice_stopped
 
 onready var outPutStreamPlayer = $PlayerOutput
 onready var cannon = $Body/Cannon
@@ -15,6 +17,7 @@ onready var state_machine:StateMachine = $StateMachine
 onready var ray_effect = $RayPower
 onready var shield_effect = $Shield
 onready var ray_sfx = $PowerSFX
+onready var camera = $Camera
 
 const FLOOR_NORMAL := Vector2.UP
 const SNAP_DIRECTION := Vector2.DOWN
@@ -27,6 +30,7 @@ export (float) var H_SPEED_LIMIT:float = 400.0
 export (int) var jump_speed = 1000
 export (float) var FRICTION_WEIGHT:float = 0.1
 export (int) var gravity = 30
+export (float) var recoil = 30
 
 var projectile_container
 
@@ -40,6 +44,8 @@ var jumps:int = 0
 func _ready():
 	sm.initialize(self)
 	PlayerData.call_deferred("set_max_health", max_health)
+	self.connect("ice_started", camera, "on_ice_started")
+	self.connect("ice_stopped", camera, "on_ice_stopped")
 
 func initialize(projectile_container):
 	self.projectile_container = projectile_container
@@ -78,7 +84,13 @@ func _handle_cannon_actions(should_fire:bool = true):
 		var distance = pos.distance_to(ray_effect.global_position)
 		shield_effect.material.set_shader_param("firing_angle", cannon.rotation)
 		ray_effect.clamp_distance(distance)
+		velocity.x = recoil * (1 + int(get_local_mouse_position().x < 0) * 2)
 	ray_sfx.playing = is_firing
+	
+	if Input.is_action_just_pressed("fire_cannon") && should_fire:
+		emit_signal("ice_started")
+	elif Input.is_action_just_released("fire_cannon"):
+		emit_signal("ice_stopped")
 
 func _apply_movement():
 	velocity.y += gravity
