@@ -536,7 +536,7 @@ __meta__ = {
 
 [node name="Star" parent="Objects" instance=ExtResource( 11 )]
 position = Vector2( 976.542, 78.5723 )
-frame = 14
+frame = 6
 
 [node name="Ball" parent="Objects" instance=ExtResource( 7 )]
 position = Vector2( 475.947, 94.1804 )
